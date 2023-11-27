@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+    branches: main
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run tests
+        continue-on-error: true
+        run: |
+          dotnet test .\Test.TestReporter\Test.TestReporter.csproj --filter "Category=Tests" -l "trx;LogFileName=tests-results.trx"
+
+      - name: Test Reports
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Test Reports
+          path: "**/tests-results.trx"
+          reporter: dotnet-trx
+          fail-on-error: true
+
+      - name: Run more tests
+        continue-on-error: true
+        run: |
+          dotnet test .\Test.TestReporter\Test.TestReporter.csproj --filter "Category=MoreTests" -l "trx;LogFileName=more-tests-results.trx"
+
+      - name: More Test Reports
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: More Test Reports
+          path: "**/more-tests-results.trx"
+          reporter: dotnet-trx
+          fail-on-error: true
