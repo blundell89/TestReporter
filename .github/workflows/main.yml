@@ -17,7 +17,7 @@ jobs:
       - name: Run tests
         continue-on-error: true
         run: |
-          dotnet test .\Test.TestReporter\Test.TestReporter.csproj --filter "Category=Tests" -l "trx;LogFileName=tests-results.trx"
+          dotnet test ./Test.TestReporter/Test.TestReporter.csproj --filter "Category=Tests" -l "trx;LogFileName=tests-results.trx"
 
       - name: Test Reports
         uses: dorny/test-reporter@v1
@@ -31,7 +31,7 @@ jobs:
       - name: Run more tests
         continue-on-error: true
         run: |
-          dotnet test .\Test.TestReporter\Test.TestReporter.csproj --filter "Category=MoreTests" -l "trx;LogFileName=more-tests-results.trx"
+          dotnet test ./Test.TestReporter/Test.TestReporter.csproj --filter "Category=MoreTests" -l "trx;LogFileName=more-tests-results.trx"
 
       - name: More Test Reports
         uses: dorny/test-reporter@v1
